@@ -29,13 +29,21 @@ npm run dev
 ```
 App at http://localhost:5173/
 
-## Status
-- [x] Phase 0 — scaffold (backend, frontend, auth API, i18n/RTL shell)
-- [x] Phase 1 — auth & role routing (login/register UI, JWT, role-guarded dashboards)
-- [ ] Phase 2 — public website
-- [ ] Phase 3 — customer dashboard
-- [ ] Phase 4 — driver dashboard
-- [ ] Phase 5 — admin + branch dashboards
-- [ ] Phase 6 — smart dispatch engine
-- [ ] Phase 7 — messaging & notifications
-- [ ] Phase 8 — polish & testing
+## Status — ✅ all phases complete (launch-ready)
+- [x] Phase 0 — scaffold
+- [x] Phase 1 — auth & role routing
+- [x] Phase 2 — public website
+- [x] Phase 3 — customer dashboard
+- [x] Phase 4 — driver dashboard
+- [x] Phase 5 — admin + branch dashboards
+- [x] Phase 6 — smart dispatch engine
+- [x] Phase 7 — messaging & notifications
+- [x] Phase 8 — testing & launch prep
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) to go live. Demo logins (after `seed_demo`,
+password `Passw0rd!23`): `admin1`, `branch1`, `driver1`, `driver2`, `customer1`.
+
+## Tests
+```powershell
+cd backend; .\.venv\Scripts\python.exe manage.py test   # 7 functional tests on sqlite
+```

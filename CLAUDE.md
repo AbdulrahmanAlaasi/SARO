@@ -82,13 +82,15 @@ frontend/src/App.tsx              router (public + /app/* role-guarded)
 ## 7. Roadmap (8 phases, Agile — see PLAN.md)
 - [x] Phase 0 — scaffold (backend, frontend, auth API, i18n/RTL shell)
 - [x] Phase 1 — auth UI + role-based routing (login/register, JWT, role-guarded dashboards)
-- [ ] Phase 2 — public website (home, services, methods, plans, branches, contact)
-- [ ] Phase 3 — customer dashboard (create order, addresses, method select, tracking, ratings)
-- [ ] Phase 4 — driver dashboard (assigned orders, status updates, locker code, over-the-wall, delays)
-- [ ] Phase 5 — admin + branch dashboards (manage entities, delay monitoring, KPIs/reports)
-- [ ] Phase 6 — smart dispatch engine (rule-based + AIRecommendation log + assign UI)
-- [ ] Phase 7 — messaging & notifications (privacy-first; optional Supabase Realtime)
-- [ ] Phase 8 — polish & testing (responsiveness, functional/usability tests, seed data)
+- [x] Phase 2 — public website (home, services, methods, plans, branches, contact)
+- [x] Phase 3 — customer dashboard (create order, addresses, method select, tracking, ratings)
+- [x] Phase 4 — driver dashboard (assigned orders, status updates, locker code, over-the-wall, delays)
+- [x] Phase 5 — admin + branch dashboards (manage entities, delay monitoring, KPIs/reports)
+- [x] Phase 6 — smart dispatch engine (rule-based + AIRecommendation log + assign UI)
+- [x] Phase 7 — messaging & notifications (privacy-first internal messaging + notifications bell)
+- [x] Phase 8 — testing & launch prep (7 functional tests passing, whitenoise/gunicorn, DEPLOYMENT.md)
+
+PROJECT COMPLETE through launch-ready state. See DEPLOYMENT.md for go-live steps.
 
 ## 8. Open items / TODO
 - [DONE] Supabase connected (project ref wxzpsnlmhekpwlkcqdbr) via direct connection
@@ -100,6 +102,19 @@ frontend/src/App.tsx              router (public + /app/* role-guarded)
   addresses, reports, ai_recommendations) NOT built yet — only accounts.User exists.
 
 ## 9. Worklog (newest first)
+- **Phase 8 — testing & launch**: 7 Django functional tests (auth, full order lifecycle,
+  locker code, permissions, driver isolation, dispatch load-balancing) all pass on sqlite;
+  whitenoise + gunicorn + production hardening (SSL/secure cookies when DEBUG off);
+  requirements.txt; DEPLOYMENT.md; collectstatic verified. Live UI verified via preview:
+  AR/RTL public site, admin KPIs/charts, manage-orders, smart-dispatch recommend modal.
+- **Phases 2-7 frontend** (commit 79e8500): public website; customer/driver/admin/branch
+  dashboards; order create+tracking timeline; ratings; addresses; subscriptions;
+  smart-dispatch assign UI; privacy-first messaging; notifications bell; recharts KPIs.
+  Shared UI kit + domain types. tsc + build pass.
+- **Backend data model + API** (commit eb3e979): 10 apps (branches, addresses, lockers,
+  orders, subscriptions, payments, messaging, notifications, dispatch, reports); rule-based
+  dispatch service; role-permissioned DRF viewsets + custom actions; seed_demo; migrated to
+  Supabase; full lifecycle verified end-to-end. Fixed assign() driver-persist bug.
 - **Connect Supabase**: DATABASE_URL (direct conn) in backend/.env; migrated all tables to
   Supabase Postgres; verified register→login→/me writes to live DB (user 'supatest').
   Added DISABLE_SERVER_SIDE_CURSORS for pooler safety; frontend/.env(.example) with URL+anon key.
