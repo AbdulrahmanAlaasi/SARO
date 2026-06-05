@@ -1,11 +1,45 @@
 import { useTranslation } from "react-i18next";
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import type { Role } from "../auth/types";
 import LangToggle from "../components/LangToggle";
+import NotificationsBell from "../components/NotificationsBell";
+
+interface NavItem {
+  to: string;
+  key: string;
+}
+
+const NAV: Record<Role, NavItem[]> = {
+  customer: [
+    { to: "/app/customer", key: "nav.overview" },
+    { to: "/app/customer/orders", key: "nav.orders" },
+    { to: "/app/customer/addresses", key: "nav.addresses" },
+    { to: "/app/customer/subscriptions", key: "nav.subscriptions" },
+  ],
+  driver: [
+    { to: "/app/driver", key: "nav.overview" },
+    { to: "/app/driver/orders", key: "nav.assigned" },
+  ],
+  admin: [
+    { to: "/app/admin", key: "nav.overview" },
+    { to: "/app/admin/orders", key: "nav.orders" },
+    { to: "/app/admin/users", key: "nav.users" },
+    { to: "/app/admin/branches", key: "nav.branches" },
+    { to: "/app/admin/lockers", key: "nav.lockers" },
+    { to: "/app/admin/plans", key: "nav.plans" },
+  ],
+  branch_supervisor: [
+    { to: "/app/branch", key: "nav.overview" },
+    { to: "/app/branch/orders", key: "nav.orders" },
+    { to: "/app/branch/lockers", key: "nav.lockers" },
+  ],
+};
 
 export default function DashboardLayout() {
   const { t } = useTranslation();
   const { user, logout } = useAuth();
+  const items = user ? NAV[user.role] : [];
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50">
@@ -18,36 +52,39 @@ export default function DashboardLayout() {
             </span>
           )}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <NotificationsBell />
           <LangToggle className="text-white/90" />
-          {user && (
-            <span className="text-sm text-white/90">
-              {user.first_name || user.username}
-            </span>
-          )}
+          {user && <span className="text-sm text-white/90">{user.first_name || user.username}</span>}
           <button onClick={logout} className="rounded-sm bg-white/15 px-3 py-1.5 text-sm hover:bg-white/25">
             {t("nav.logout")}
           </button>
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 p-6">
-        <Outlet />
-      </main>
-    </div>
-  );
-}
-
-export function DashboardPlaceholder({ titleKey }: { titleKey: string }) {
-  const { t } = useTranslation();
-  const { user } = useAuth();
-  return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-semibold text-navy">{t(titleKey)}</h1>
-      <p className="text-slate-600">
-        {t("dash.welcome")}, {user?.first_name || user?.username} 👋
-      </p>
-      <div className="card p-6 text-slate-500">{t("dash.placeholder")}</div>
+      <div className="mx-auto flex w-full max-w-6xl flex-1 gap-6 p-6">
+        <aside className="hidden w-52 shrink-0 sm:block">
+          <nav className="card flex flex-col p-2">
+            {items.map((it) => (
+              <NavLink
+                key={it.to}
+                to={it.to}
+                end={it.to.split("/").length === 3}
+                className={({ isActive }) =>
+                  `rounded-sm px-3 py-2 text-sm font-medium ${
+                    isActive ? "bg-navy text-white" : "text-slate-700 hover:bg-navy-50"
+                  }`
+                }
+              >
+                {t(it.key)}
+              </NavLink>
+            ))}
+          </nav>
+        </aside>
+        <main className="min-w-0 flex-1">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }

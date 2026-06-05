@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 
 from apps.common.permissions import IsAdmin
 from .models import Plan, Subscription
@@ -12,7 +12,7 @@ class PlanViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ("list", "retrieve"):
-            return [IsAuthenticated()]
+            return [AllowAny()]  # public website needs the plans list
         return [IsAdmin()]
 
 

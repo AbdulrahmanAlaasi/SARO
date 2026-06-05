@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import LangToggle from "../components/LangToggle";
 
 const statuses = [
   { key: "created", cls: "bg-status-created/10 text-status-created" },
@@ -9,39 +8,21 @@ const statuses = [
   { key: "delivered", cls: "bg-status-delivered/10 text-status-delivered" },
   { key: "delayed", cls: "bg-status-delayed/10 text-status-delayed" },
 ];
-
 const methods = ["home", "locker", "homeBox", "overWall"];
 
 export default function Home() {
   const { t } = useTranslation();
-
   return (
-    <div className="min-h-screen">
-      <header className="flex items-center justify-between bg-navy px-6 py-4 text-white">
-        <span className="text-2xl font-bold">{t("appName")}</span>
-        <div className="flex items-center gap-3">
-          <LangToggle className="text-white/90" />
-          <Link to="/login" className="btn-outline border-white py-2 text-sm text-white hover:bg-white/10">
-            {t("login")}
-          </Link>
-          <Link to="/register" className="btn-cta py-2 text-sm">
-            {t("register")}
-          </Link>
-        </div>
-      </header>
-
-      <section className="bg-navy px-6 pb-16 pt-8 text-white">
+    <>
+      <section className="bg-navy px-6 pb-16 pt-10 text-white">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-4xl font-bold sm:text-5xl">{t("tagline")}</h1>
           <p className="mt-3 text-navy-50/80">{t("heroSub")}</p>
           <div className="card mx-auto mt-8 flex max-w-xl items-center gap-2 p-2">
-            <input
-              className="w-full rounded-sm px-4 py-2.5 text-slate-900 outline-none"
-              placeholder={t("trackPlaceholder")}
-              dir="ltr"
-            />
+            <input className="w-full rounded-sm px-4 py-2.5 text-slate-900 outline-none" placeholder={t("trackPlaceholder")} dir="ltr" />
             <button className="btn-cta whitespace-nowrap">{t("track")}</button>
           </div>
+          <Link to="/register" className="mt-6 inline-block text-sm text-accent underline">{t("pub.getStarted")} →</Link>
         </div>
       </section>
 
@@ -60,12 +41,10 @@ export default function Home() {
         <h2 className="mb-4 text-2xl font-semibold text-navy">{t("statusTitle")}</h2>
         <div className="flex flex-wrap gap-2">
           {statuses.map((s) => (
-            <span key={s.key} className={`rounded-sm px-3 py-1 text-sm font-medium ${s.cls}`}>
-              {t(`status.${s.key}`)}
-            </span>
+            <span key={s.key} className={`rounded-sm px-3 py-1 text-sm font-medium ${s.cls}`}>{t(`status.${s.key}`)}</span>
           ))}
         </div>
       </section>
-    </div>
+    </>
   );
 }
