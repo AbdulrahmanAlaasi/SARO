@@ -102,6 +102,8 @@ PROJECT COMPLETE through launch-ready state. See DEPLOYMENT.md for go-live steps
   addresses, reports, ai_recommendations) NOT built yet — only accounts.User exists.
 
 ## 9. Worklog (newest first)
+- **Professional README**: rewrote README.md — badges, overview, feature tables by role,
+  tech stack, mermaid architecture diagram, quick start, testing, roadmap, structure, team, license.
 - **UI polish pass**: Swiss-minimal cleanup + tasteful motion. Tailwind keyframes
   (fade-up/fade-in/scale-in/shimmer) + shadow tokens (card/hover/focus); index.css
   refined btn/card/input classes, .card-hover lift, .stagger list entrance, .skeleton
