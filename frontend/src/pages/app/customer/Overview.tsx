@@ -19,7 +19,7 @@ export default function CustomerOverview() {
   return (
     <div>
       <PageTitle>{t("dash.customer")}</PageTitle>
-      <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div className="stagger mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
         <Card><p className="text-sm text-slate-500">{t("cust.activeOrders")}</p><p className="text-3xl font-bold text-navy">{active.length}</p></Card>
         <Card><p className="text-sm text-slate-500">{t("cust.myOrders")}</p><p className="text-3xl font-bold text-navy">{orders.length}</p></Card>
         <Card className="flex items-center justify-center">
@@ -30,9 +30,9 @@ export default function CustomerOverview() {
       {orders.length === 0 ? (
         <EmptyState text={t("cust.noOrders")} />
       ) : (
-        <div className="space-y-2">
+        <div className="stagger space-y-2">
           {orders.slice(0, 5).map((o) => (
-            <Link key={o.id} to={`/app/customer/orders/${o.id}`} className="card flex items-center justify-between p-4 hover:bg-navy-50">
+            <Link key={o.id} to={`/app/customer/orders/${o.id}`} className="card card-hover flex items-center justify-between p-4">
               <span className="font-medium">#{o.id} · {t(`dmethod.${o.delivery_method}`)}</span>
               <StatusBadge status={o.status} />
             </Link>

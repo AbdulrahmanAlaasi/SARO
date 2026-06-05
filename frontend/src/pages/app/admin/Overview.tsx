@@ -24,7 +24,7 @@ export default function AdminOverview() {
   return (
     <div>
       <PageTitle>{t("adm.kpis")}</PageTitle>
-      <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
+      <div className="stagger mb-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
         <Kpi label={t("adm.totalOrders")} value={data.total_orders} />
         <Kpi label={t("adm.active")} value={data.active} />
         <Kpi label={t("adm.delivered")} value={data.delivered} />

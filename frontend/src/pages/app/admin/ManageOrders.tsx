@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "../../../lib/api";
 import type { Order } from "../../../lib/types";
-import { EmptyState, Modal, PageTitle, Spinner, StatusBadge } from "../../../components/ui";
+import { EmptyState, Icon, Modal, PageTitle, SkeletonList, Spinner, StatusBadge } from "../../../components/ui";
 
 interface Candidate { driver: number; driver_name: string; score: number; reason: string; }
 
@@ -17,13 +17,11 @@ export default function ManageOrders() {
     queryFn: async () => (await api.get<Order[]>("/orders/")).data,
   });
 
-  if (isLoading) return <Spinner />;
-
   return (
     <div>
       <PageTitle>{t("adm.manageOrders")}</PageTitle>
-      {data.length === 0 ? <EmptyState text={t("cust.noOrders")} /> : (
-        <div className="overflow-x-auto">
+      {isLoading ? <SkeletonList /> : data.length === 0 ? <EmptyState text={t("cust.noOrders")} icon="package" /> : (
+        <div className="card overflow-hidden overflow-x-auto p-0">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-navy text-white">
@@ -37,10 +35,10 @@ export default function ManageOrders() {
             </thead>
             <tbody>
               {data.map((o, i) => (
-                <tr key={o.id} className={i % 2 ? "bg-navy-50" : ""}>
+                <tr key={o.id} className={`transition-colors hover:bg-navy-50 ${i % 2 ? "bg-slate-50/60" : ""}`}>
                   <td className="p-2 font-medium">#{o.id}</td>
                   <td className="p-2">{t(`dmethod.${o.delivery_method}`)}</td>
-                  <td className="p-2">{t(`prio.${o.priority}`)}{o.is_delayed && <span className="ms-1 text-status-failed">⚠</span>}</td>
+                  <td className="p-2"><span className="inline-flex items-center gap-1">{t(`prio.${o.priority}`)}{o.is_delayed && <Icon name="alert" className="h-3.5 w-3.5 text-status-failed" />}</span></td>
                   <td className="p-2">{o.driver_name || t("adm.noDriver")}</td>
                   <td className="p-2"><StatusBadge status={o.status} /></td>
                   <td className="p-2">
@@ -78,9 +76,10 @@ function AssignModal({ order, onClose, onAssigned }: { order: Order; onClose: ()
       {!data ? <Spinner /> : (
         <div className="space-y-2">
           {data.recommendation && (
-            <div className="rounded-md bg-accent/10 p-3 text-sm">
-              <span className="font-semibold text-accent-600">★ {t("adm.recommended")}: </span>
-              {data.recommendation.driver_name} ({data.recommendation.score} {t("adm.score")})
+            <div className="flex items-center gap-2 rounded-md bg-accent/10 p-3 text-sm">
+              <Icon name="star" className="h-4 w-4 fill-accent text-accent-600" />
+              <span><span className="font-semibold text-accent-600">{t("adm.recommended")}: </span>
+              {data.recommendation.driver_name} ({data.recommendation.score} {t("adm.score")})</span>
             </div>
           )}
           {data.candidates.map((c) => (

@@ -102,6 +102,14 @@ PROJECT COMPLETE through launch-ready state. See DEPLOYMENT.md for go-live steps
   addresses, reports, ai_recommendations) NOT built yet — only accounts.User exists.
 
 ## 9. Worklog (newest first)
+- **UI polish pass**: Swiss-minimal cleanup + tasteful motion. Tailwind keyframes
+  (fade-up/fade-in/scale-in/shimmer) + shadow tokens (card/hover/focus); index.css
+  refined btn/card/input classes, .card-hover lift, .stagger list entrance, .skeleton
+  shimmer, focus-visible rings, prefers-reduced-motion guard. ui.tsx: SVG Icon set
+  (replaced ALL emojis), animated Spinner, SkeletonList, dot StatusBadge, animated Modal
+  (backdrop blur + scale-in), icon EmptyState. Gradient hero + icon method tiles; page
+  fade transitions in DashboardLayout; SVG notifications bell. tsc + build pass; verified
+  in preview (AR/RTL home + admin).
 - **Phase 8 — testing & launch**: 7 Django functional tests (auth, full order lifecycle,
   locker code, permissions, driver isolation, dispatch load-balancing) all pass on sqlite;
   whitenoise + gunicorn + production hardening (SSL/secure cookies when DEBUG off);

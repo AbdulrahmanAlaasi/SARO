@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
 import { api } from "../../lib/api";
 import type { Order, OrderStatus } from "../../lib/types";
-import { Card, PageTitle, Spinner, StatusBadge } from "../../components/ui";
+import { Card, Icon, PageTitle, Spinner, StatusBadge } from "../../components/ui";
 import Conversation from "./Conversation";
 
 const DRIVER_NEXT: Partial<Record<OrderStatus, { to: OrderStatus; key: string }[]>> = {
@@ -53,7 +53,9 @@ export default function OrderDetail() {
 
   return (
     <div>
-      <button onClick={() => navigate(-1)} className="mb-3 text-sm text-navy underline">← {t("ui.back")}</button>
+      <button onClick={() => navigate(-1)} className="mb-3 inline-flex cursor-pointer items-center gap-1 text-sm text-navy transition hover:gap-2">
+        <Icon name="back" className="h-4 w-4" />{t("ui.back")}
+      </button>
       <div className="mb-4 flex items-center justify-between">
         <PageTitle>#{order.id} · {t(`dmethod.${order.delivery_method}`)}</PageTitle>
         <StatusBadge status={order.status} />
@@ -66,7 +68,7 @@ export default function OrderDetail() {
           <p className="text-sm text-slate-500">{t("cust.priority")}</p>
           <p className="mb-2 font-medium">{t(`prio.${order.priority}`)}</p>
           {order.driver_name && (<><p className="text-sm text-slate-500">{t("adm.driver")}</p><p className="mb-2 font-medium">{order.driver_name}</p></>)}
-          {order.is_delayed && <p className="font-medium text-status-failed">⚠ {t("adm.delayed")}</p>}
+          {order.is_delayed && <p className="flex items-center gap-1 font-medium text-status-failed"><Icon name="alert" className="h-4 w-4" /> {t("adm.delayed")}</p>}
 
           {order.delivery_method === "locker" && order.pickup_code && (
             <div className="mt-3 rounded-md bg-navy-50 p-3 text-center">
@@ -123,7 +125,11 @@ export default function OrderDetail() {
         <Card className="mt-4">
           <p className="mb-2 font-semibold text-navy">{t("cust.rate")}</p>
           {order.rating ? (
-            <p>{t("cust.yourRating")}: {"★".repeat(order.rating.stars)}</p>
+            <p className="flex items-center gap-1">{t("cust.yourRating")}:
+              <span className="flex text-accent">
+                {Array.from({ length: order.rating.stars }).map((_, i) => <Icon key={i} name="star" className="h-4 w-4 fill-accent" />)}
+              </span>
+            </p>
           ) : (
             <div className="space-y-2">
               <select value={stars} onChange={(e) => setStars(Number(e.target.value))} className="rounded-sm border border-slate-200 px-3 py-2">

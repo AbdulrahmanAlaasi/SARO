@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import type { Role } from "../auth/types";
 import LangToggle from "../components/LangToggle";
@@ -39,6 +39,7 @@ const NAV: Record<Role, NavItem[]> = {
 export default function DashboardLayout() {
   const { t } = useTranslation();
   const { user, logout } = useAuth();
+  const location = useLocation();
   const items = user ? NAV[user.role] : [];
 
   return (
@@ -81,7 +82,7 @@ export default function DashboardLayout() {
             ))}
           </nav>
         </aside>
-        <main className="min-w-0 flex-1">
+        <main key={location.pathname} className="min-w-0 flex-1 animate-fade-in">
           <Outlet />
         </main>
       </div>

@@ -16,9 +16,9 @@ export default function PublicPlans() {
       <h1 className="text-3xl font-bold text-navy">{t("pub.plans")}</h1>
       <p className="mt-2 text-slate-600">{t("pub.plansIntro")}</p>
       {isLoading ? <Spinner /> : (
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+        <div className="stagger mt-8 grid gap-4 sm:grid-cols-3">
           {data.map((p) => (
-            <div key={p.id} className="card flex flex-col p-6">
+            <div key={p.id} className="card card-hover flex flex-col p-6">
               <p className="text-lg font-semibold text-navy">{i18n.language === "ar" && p.name_ar ? p.name_ar : p.name}</p>
               <p className="my-2 text-3xl font-bold">{p.price}<span className="text-sm font-normal text-slate-500"> SAR</span></p>
               <ul className="mb-4 flex-1 space-y-1 text-sm text-slate-600">

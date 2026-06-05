@@ -5,26 +5,81 @@
 @layer base {
   html {
     font-family: "IBM Plex Sans", "IBM Plex Sans Arabic", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
   html[lang="ar"] {
     font-family: "IBM Plex Sans Arabic", "IBM Plex Sans", sans-serif;
   }
   body {
     @apply bg-slate-50 text-slate-900;
+    line-height: 1.6;
+  }
+  /* Accessible focus ring for keyboard users */
+  :focus-visible {
+    @apply outline-none ring-2 ring-navy/40 ring-offset-1;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply rounded-md bg-navy px-5 py-2.5 font-medium text-white hover:bg-navy-700 transition;
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md bg-navy px-5 py-2.5
+           font-medium text-white shadow-card transition-all duration-200
+           hover:bg-navy-700 hover:shadow-hover active:scale-[0.98]
+           disabled:cursor-not-allowed disabled:opacity-60;
   }
   .btn-outline {
-    @apply rounded-md border border-navy px-5 py-2.5 font-medium text-navy hover:bg-navy-50 transition;
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md border border-navy
+           px-5 py-2.5 font-medium text-navy transition-all duration-200
+           hover:bg-navy-50 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60;
   }
   .btn-cta {
-    @apply rounded-md bg-accent px-5 py-2.5 font-semibold text-white hover:bg-accent-600 transition;
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md bg-accent px-5 py-2.5
+           font-semibold text-white shadow-card transition-all duration-200
+           hover:bg-accent-600 hover:shadow-hover active:scale-[0.98]
+           disabled:cursor-not-allowed disabled:opacity-60;
   }
   .card {
-    @apply rounded-md border border-slate-200 bg-white shadow-sm;
+    @apply rounded-lg border border-slate-200 bg-white shadow-card;
+  }
+  /* Interactive card (links/rows) */
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:border-navy/20 hover:shadow-hover;
+  }
+  .input {
+    @apply w-full rounded-md border border-slate-200 px-3 py-2.5 outline-none transition-colors duration-200
+           focus:border-navy focus:ring-2 focus:ring-navy/15;
+  }
+  /* Staggered entrance for lists/grids */
+  .stagger > * {
+    animation: fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .stagger > *:nth-child(1) { animation-delay: 0.02s; }
+  .stagger > *:nth-child(2) { animation-delay: 0.06s; }
+  .stagger > *:nth-child(3) { animation-delay: 0.10s; }
+  .stagger > *:nth-child(4) { animation-delay: 0.14s; }
+  .stagger > *:nth-child(5) { animation-delay: 0.18s; }
+  .stagger > *:nth-child(6) { animation-delay: 0.22s; }
+  .stagger > *:nth-child(7) { animation-delay: 0.26s; }
+  .stagger > *:nth-child(8) { animation-delay: 0.30s; }
+
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-slate-200/70;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: shimmer 1.4s infinite;
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

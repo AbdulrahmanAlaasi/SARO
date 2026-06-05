@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "../../../lib/api";
 import type { Address } from "../../../lib/types";
-import { Card, EmptyState, Modal, PageTitle, Spinner } from "../../../components/ui";
+import { Card, EmptyState, Icon, Modal, PageTitle, Spinner } from "../../../components/ui";
 import { Text } from "./Orders";
 
 export default function Addresses() {
@@ -39,7 +39,7 @@ export default function Addresses() {
             <Card key={a.id}>
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="font-semibold">{a.label} {a.is_default && <span className="text-xs text-accent">★</span>}</p>
+                  <p className="flex items-center gap-1 font-semibold">{a.label} {a.is_default && <Icon name="star" className="h-3.5 w-3.5 fill-accent text-accent" />}</p>
                   <p className="text-sm text-slate-500">{a.city} {a.district && `· ${a.district}`}</p>
                   {a.street && <p className="text-sm text-slate-500">{a.street}</p>}
                   {a.national_address && <p className="text-xs text-slate-400" dir="ltr">{a.national_address}</p>}

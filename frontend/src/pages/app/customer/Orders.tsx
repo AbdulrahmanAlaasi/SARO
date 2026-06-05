@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { api } from "../../../lib/api";
 import type { Address, DeliveryMethod, Order, Priority } from "../../../lib/types";
-import { EmptyState, Modal, PageTitle, Spinner, StatusBadge } from "../../../components/ui";
+import { EmptyState, Icon, Modal, PageTitle, SkeletonList, StatusBadge } from "../../../components/ui";
 
 const METHODS: DeliveryMethod[] = ["home", "locker", "home_box", "over_the_wall"];
 const PRIORITIES: Priority[] = ["low", "normal", "high"];
@@ -44,25 +44,27 @@ export default function CustomerOrders() {
     },
   });
 
-  if (isLoading) return <Spinner />;
-
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
         <PageTitle>{t("cust.myOrders")}</PageTitle>
-        <button className="btn-cta" onClick={() => setOpen(true)}>{t("cust.newOrder")}</button>
+        <button className="btn-cta" onClick={() => setOpen(true)}>
+          <Icon name="plus" className="h-4 w-4" />{t("cust.newOrder")}
+        </button>
       </div>
 
-      {orders.length === 0 ? (
-        <EmptyState text={t("cust.noOrders")} />
+      {isLoading ? (
+        <SkeletonList />
+      ) : orders.length === 0 ? (
+        <EmptyState text={t("cust.noOrders")} icon="package" />
       ) : (
-        <div className="space-y-2">
+        <div className="stagger space-y-2">
           {orders.map((o) => (
-            <Link key={o.id} to={`/app/customer/orders/${o.id}`} className="card flex items-center justify-between p-4 hover:bg-navy-50">
-              <div>
+            <Link key={o.id} to={`/app/customer/orders/${o.id}`} className="card card-hover flex items-center justify-between p-4">
+              <div className="flex items-center gap-2">
                 <span className="font-medium">#{o.id}</span>
-                <span className="ms-2 text-sm text-slate-500">{t(`dmethod.${o.delivery_method}`)}</span>
-                {o.is_delayed && <span className="ms-2 text-xs text-status-failed">⚠</span>}
+                <span className="text-sm text-slate-500">{t(`dmethod.${o.delivery_method}`)}</span>
+                {o.is_delayed && <Icon name="alert" className="h-4 w-4 text-status-failed" />}
               </div>
               <StatusBadge status={o.status} />
             </Link>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../auth/AuthContext";
 import { api } from "../../lib/api";
-import { Card } from "../../components/ui";
+import { Card, Icon } from "../../components/ui";
 
 interface Message { id: number; sender: number; sender_name: string; body: string; created_at: string; }
 interface Convo { id: number; messages: Message[]; }
@@ -45,8 +45,8 @@ export default function Conversation({ orderId }: { orderId: number }) {
         <input value={text} onChange={(e) => setText(e.target.value)} placeholder={t("cust.typeMessage")}
           className="flex-1 rounded-sm border border-slate-200 px-3 py-2 text-sm outline-none focus:border-navy"
           onKeyDown={(e) => { if (e.key === "Enter" && text.trim()) send.mutate(); }} />
-        <button className="btn-primary py-2 text-sm" disabled={!text.trim() || send.isPending} onClick={() => send.mutate()}>
-          {t("cust.send")}
+        <button className="btn-primary py-2 text-sm" disabled={!text.trim() || send.isPending} onClick={() => send.mutate()} aria-label={t("cust.send")}>
+          <Icon name="send" className="h-4 w-4" />
         </button>
       </div>
     </Card>
