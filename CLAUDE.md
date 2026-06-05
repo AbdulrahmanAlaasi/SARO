@@ -91,13 +91,18 @@ frontend/src/App.tsx              router (public + /app/* role-guarded)
 - [ ] Phase 8 — polish & testing (responsiveness, functional/usability tests, seed data)
 
 ## 8. Open items / TODO
-- Connect Supabase: user to provide `DATABASE_URL` -> move off sqlite onto Postgres.
+- [DONE] Supabase connected (project ref wxzpsnlmhekpwlkcqdbr) via direct connection
+  (db.<ref>.supabase.co:5432) in `backend/.env`. Frontend URL+anon key in `frontend/.env`.
+  Both .env files gitignored. If direct conn ever fails (IPv6), switch to IPv4 pooler URI.
 - Register form currently allows choosing ANY role (for easy testing). Before launch,
   lock admin/branch creation behind admin only (do in Phase 5).
 - Data model (orders, lockers, subscriptions, payments, messages, notifications, branches,
   addresses, reports, ai_recommendations) NOT built yet — only accounts.User exists.
 
 ## 9. Worklog (newest first)
+- **Connect Supabase**: DATABASE_URL (direct conn) in backend/.env; migrated all tables to
+  Supabase Postgres; verified register→login→/me writes to live DB (user 'supatest').
+  Added DISABLE_SERVER_SIDE_CURSORS for pooler safety; frontend/.env(.example) with URL+anon key.
 - **Phase 1 + fonts** (commit aed65a6): IBM Plex fonts; axios JWT client w/ auto-refresh;
   AuthContext; ProtectedRoute; bilingual Login/Register; dashboard shell + 4 role dashboards;
   router. Verified register→login→/me end-to-end; frontend prod build passes.
