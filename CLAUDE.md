@@ -1,0 +1,109 @@
+# CLAUDE.md — SARO working memory
+
+> **This file is my (Claude's) persistent memory for the SARO project.**
+> Read it first at the start of every session and after any context compaction to
+> understand what the project is, what we've decided, and what we've already built.
+> **IMPORTANT: After finishing every task, update this file** — append to the
+> Worklog, tick the roadmap, and revise any decision that changed. Keep it accurate
+> and concise; it is the source of truth for continuity.
+
+---
+
+## 1. What SARO is
+**SARO** = Smart Delivery Management Platform. MIS senior project, Al Yamamah University,
+2025–2026 (supervisor Dr. Abdullah AlSahly; team: Abdulaziz BinAsakir, Meshari Alsharif,
+Abdullah Aref, Faisal Alrayes). Web platform for smart last-mile delivery in the Saudi market.
+
+**4 roles:** customer, driver, admin, branch supervisor.
+**Signature features:** rule-based smart dispatch (simulated, NOT real ML), privacy-first
+internal messaging (no phone numbers — PDPL), multiple delivery methods (home, neighborhood
+smart locker w/ pickup code, home delivery box, over-the-wall), subscriptions, order tracking,
+ratings, reports, responsive bilingual UI.
+**Out of scope / simulated only:** live National Address API, real maps/GPS, real payment
+gateway, physical hardware, real drone/robot delivery, enterprise optimization.
+
+Source doc: `Downloads\SARO MIS Senior Project with Literature Review.docx`
+(extracted text in `_docx/extracted.txt`, gitignored). Full plan in `PLAN.md`,
+design system in `DESIGN.md`.
+
+## 2. Standing rules (do not violate)
+- **Git/GitHub:** repo https://github.com/AbdulrahmanAlaasi/SARO (PUBLIC).
+  ALL commits authored as **Abdulrahman <arkom.293@gmail.com>**.
+  **NEVER add Claude as co-author/contributor** (no `Co-Authored-By` trailer).
+- Commit + push after each completed task/phase.
+- **Design identity:** Aramex-inspired *structure* (tracking-first hero, service tiles,
+  status clarity, bilingual RTL) but SARO's OWN look — navy, NOT Aramex red.
+- Bilingual Arabic-first: use Tailwind **logical** utilities (ps/pe/ms/me, start/end),
+  never hard left/right. `dir`/`lang` flip via i18next (wired in `src/i18n.ts`).
+- Keep this CLAUDE.md updated after every task.
+
+## 3. Stack
+- **Frontend:** Vite + React + TypeScript + Tailwind, React Router v7, TanStack Query,
+  axios, i18next (AR/EN + RTL/LTR), recharts. Dir: `frontend/`.
+- **Backend:** Django 5.2 + DRF + SimpleJWT + django-cors-headers. Dir: `backend/`
+  (venv at `backend/.venv`, apps under `backend/apps/`).
+- **DB:** Supabase (managed Postgres) via `DATABASE_URL` env; falls back to sqlite if unset.
+  **Approach A** — Django owns auth/ORM/migrations (single source of truth). Do NOT run
+  Supabase auth as primary. Optionally adopt Supabase Realtime later for messaging+notifications ONLY.
+- **Storage:** Supabase Storage (later phases).
+- Tooling present: Node 22, Python 3.14, gh CLI (logged in as AbdulrahmanAlaasi).
+
+## 4. Design tokens (in `frontend/tailwind.config.js` + `DESIGN.md`)
+- Primary `navy` #001F5F (50 #EAF0FB, 700 #0A2E7A). CTA `accent` amber #F59E0B (600 #D97706).
+- Order-status colors: created #64748B, assigned #6366F1, pickedup #0EA5E9, transit #3B82F6,
+  delivered #16A34A, failed #DC2626, delayed #F59E0B.
+- Fonts: **IBM Plex Sans Arabic** (AR) + **IBM Plex Sans** (EN). Radius sm6/md10/lg16.
+- Reusable classes in `src/index.css`: `.btn-primary .btn-outline .btn-cta .card`.
+
+## 5. How to run
+```powershell
+# backend
+cd backend; .\.venv\Scripts\python.exe manage.py migrate; .\.venv\Scripts\python.exe manage.py runserver
+# frontend
+cd frontend; npm run dev   # http://localhost:5173
+```
+Backend API base: http://127.0.0.1:8000/api  ·  admin: /admin/
+Copy `backend/.env.example` -> `backend/.env`; set `DATABASE_URL` for Supabase (else sqlite).
+
+## 6. Key files / layout
+```
+backend/config/settings.py        env-driven; AUTH_USER_MODEL=accounts.User; DRF+JWT+CORS
+backend/apps/accounts/            custom User(role,phone,preferred_language), auth API
+   models.py serializers.py views.py urls.py  (register/login/refresh/me)
+backend/config/urls.py            includes api/auth/
+frontend/src/lib/api.ts           axios + JWT + auto-refresh (ACCESS_KEY/REFRESH_KEY)
+frontend/src/auth/                AuthContext, ProtectedRoute, types (Role, HOME_BY_ROLE)
+frontend/src/pages/               Home, Login, Register, dashboards/
+frontend/src/layouts/DashboardLayout.tsx   topbar shell + DashboardPlaceholder
+frontend/src/i18n.ts              all AR/EN strings + dir handling
+frontend/src/App.tsx              router (public + /app/* role-guarded)
+```
+
+## 7. Roadmap (8 phases, Agile — see PLAN.md)
+- [x] Phase 0 — scaffold (backend, frontend, auth API, i18n/RTL shell)
+- [x] Phase 1 — auth UI + role-based routing (login/register, JWT, role-guarded dashboards)
+- [ ] Phase 2 — public website (home, services, methods, plans, branches, contact)
+- [ ] Phase 3 — customer dashboard (create order, addresses, method select, tracking, ratings)
+- [ ] Phase 4 — driver dashboard (assigned orders, status updates, locker code, over-the-wall, delays)
+- [ ] Phase 5 — admin + branch dashboards (manage entities, delay monitoring, KPIs/reports)
+- [ ] Phase 6 — smart dispatch engine (rule-based + AIRecommendation log + assign UI)
+- [ ] Phase 7 — messaging & notifications (privacy-first; optional Supabase Realtime)
+- [ ] Phase 8 — polish & testing (responsiveness, functional/usability tests, seed data)
+
+## 8. Open items / TODO
+- Connect Supabase: user to provide `DATABASE_URL` -> move off sqlite onto Postgres.
+- Register form currently allows choosing ANY role (for easy testing). Before launch,
+  lock admin/branch creation behind admin only (do in Phase 5).
+- Data model (orders, lockers, subscriptions, payments, messages, notifications, branches,
+  addresses, reports, ai_recommendations) NOT built yet — only accounts.User exists.
+
+## 9. Worklog (newest first)
+- **Phase 1 + fonts** (commit aed65a6): IBM Plex fonts; axios JWT client w/ auto-refresh;
+  AuthContext; ProtectedRoute; bilingual Login/Register; dashboard shell + 4 role dashboards;
+  router. Verified register→login→/me end-to-end; frontend prod build passes.
+- **Design system** (commit 71b907e): DESIGN.md; Tailwind navy/accent/status tokens; fonts;
+  btn/card classes; bilingual hero + tracking input + method tiles + status badges.
+- **Phase 0 scaffold** (commit 35d55fe): Django+DRF+JWT+CORS, role-based custom User, auth API
+  (register/login/refresh/me), env Supabase/sqlite config; Vite+React+TS+Tailwind, i18n AR/EN RTL.
+  (Note: Vite 8 scaffolded vanilla template by mistake — React + plugin added manually.)
+- **Setup**: read full project docx; wrote PLAN.md, README.md; created public GitHub repo.
