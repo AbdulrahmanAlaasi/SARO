@@ -33,7 +33,7 @@ Background `#F8FAFC` · Surface/card `#FFFFFF` · Border `#E2E8F0` · Text `#0F1
 Muted text `#64748B`.
 
 ## 2. Typography
-- **Arabic:** Cairo. **Latin:** Inter. (Both free, RTL-tested, pair well.)
+- **Arabic:** IBM Plex Sans Arabic. **Latin:** IBM Plex Sans. (Same type family, designed together — clean, modern, logistics feel.)
 - Scale: display 36/44, h1 30, h2 24, h3 20, body 16, small 14, caption 12.
 - Weights: 400 body, 500 medium, 600 semibold headings, 700 display.
 

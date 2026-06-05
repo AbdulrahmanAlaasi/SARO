@@ -31,7 +31,7 @@ App at http://localhost:5173/
 
 ## Status
 - [x] Phase 0 — scaffold (backend, frontend, auth API, i18n/RTL shell)
-- [ ] Phase 1 — auth & role routing (UI)
+- [x] Phase 1 — auth & role routing (login/register UI, JWT, role-guarded dashboards)
 - [ ] Phase 2 — public website
 - [ ] Phase 3 — customer dashboard
 - [ ] Phase 4 — driver dashboard
