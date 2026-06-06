@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "../components/ui";
 
 const statuses = [
@@ -18,6 +19,9 @@ const methods = [
 
 export default function Home() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [code, setCode] = useState("");
+  const track = () => { if (code.trim()) navigate(`/track/${code.trim()}`); };
   return (
     <>
       <section className="relative overflow-hidden bg-gradient-to-b from-navy to-navy-700 px-6 pb-20 pt-14 text-white">
@@ -27,8 +31,13 @@ export default function Home() {
           <h1 className="text-4xl font-bold tracking-tight animate-fade-up sm:text-5xl">{t("tagline")}</h1>
           <p className="mt-3 text-navy-50/80 animate-fade-up" style={{ animationDelay: "0.06s" }}>{t("heroSub")}</p>
           <div className="card mx-auto mt-8 flex max-w-xl items-center gap-2 p-2 animate-fade-up" style={{ animationDelay: "0.12s" }}>
-            <input className="w-full rounded-md px-4 py-2.5 text-slate-900 outline-none" placeholder={t("trackPlaceholder")} dir="ltr" />
-            <button className="btn-cta whitespace-nowrap">{t("track")}</button>
+            <input
+              className="w-full rounded-md px-4 py-2.5 text-slate-900 outline-none"
+              placeholder={t("trackPlaceholder")} dir="ltr"
+              value={code} onChange={(e) => setCode(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") track(); }}
+            />
+            <button className="btn-cta whitespace-nowrap" onClick={track}>{t("track")}</button>
           </div>
           <Link to="/register" className="mt-6 inline-flex items-center gap-1 text-sm text-accent underline-offset-4 transition hover:underline animate-fade-up" style={{ animationDelay: "0.18s" }}>
             {t("pub.getStarted")} <span aria-hidden>→</span>

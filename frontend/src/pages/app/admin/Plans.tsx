@@ -4,11 +4,15 @@ import { useTranslation } from "react-i18next";
 import { api } from "../../../lib/api";
 import type { Plan } from "../../../lib/types";
 import { Card, EmptyState, Modal, PageTitle, Spinner } from "../../../components/ui";
+import { useToast } from "../../../components/Toast";
+import { useConfirm } from "../../../components/ConfirmDialog";
 import { Text } from "../customer/Orders";
 
 export default function Plans() {
   const { t } = useTranslation();
   const qc = useQueryClient();
+  const toast = useToast();
+  const { ui: confirmUI, confirm } = useConfirm();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", name_ar: "", price: "0", period: "monthly", features: "" });
 
@@ -18,12 +22,14 @@ export default function Plans() {
   });
   const create = useMutation({
     mutationFn: async () => api.post("/plans/", form),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["plans"] }); setOpen(false); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["plans"] }); setOpen(false); toast(t("toast.saved")); },
+    onError: () => toast(t("toast.error"), "error"),
   });
   const remove = useMutation({
     mutationFn: async (id: number) => api.delete(`/plans/${id}/`),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["plans"] }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["plans"] }); toast(t("toast.deleted")); },
   });
+  const askRemove = async (id: number) => { if (await confirm(t("ui.confirmDelete"))) remove.mutate(id); };
 
   if (isLoading) return <Spinner />;
   return (
@@ -38,7 +44,7 @@ export default function Plans() {
             <Card key={p.id} className="flex flex-col">
               <div className="flex items-start justify-between">
                 <p className="font-semibold text-navy">{p.name}</p>
-                <button className="text-sm text-status-failed" onClick={() => remove.mutate(p.id)}>{t("ui.delete")}</button>
+                <button className="text-sm text-status-failed hover:underline" onClick={() => askRemove(p.id)}>{t("ui.delete")}</button>
               </div>
               <p className="my-1 text-xl font-bold">{p.price} SAR</p>
               <p className="text-xs text-slate-400">{p.period}</p>
@@ -46,6 +52,7 @@ export default function Plans() {
           ))}
         </div>
       )}
+      {confirmUI}
       {open && (
         <Modal title={t("adm.addPlan")} onClose={() => setOpen(false)}>
           <div className="space-y-3">

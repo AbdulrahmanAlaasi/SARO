@@ -4,11 +4,15 @@ import { useTranslation } from "react-i18next";
 import { api } from "../../../lib/api";
 import type { Address } from "../../../lib/types";
 import { Card, EmptyState, Icon, Modal, PageTitle, Spinner } from "../../../components/ui";
+import { useToast } from "../../../components/Toast";
+import { useConfirm } from "../../../components/ConfirmDialog";
 import { Text } from "./Orders";
 
 export default function Addresses() {
   const { t } = useTranslation();
   const qc = useQueryClient();
+  const toast = useToast();
+  const { ui: confirmUI, confirm } = useConfirm();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ label: "", city: "", district: "", street: "", national_address: "", is_default: false });
 
@@ -18,12 +22,14 @@ export default function Addresses() {
   });
   const create = useMutation({
     mutationFn: async () => api.post("/addresses/", form),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["addresses"] }); setOpen(false); setForm({ label: "", city: "", district: "", street: "", national_address: "", is_default: false }); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["addresses"] }); setOpen(false); setForm({ label: "", city: "", district: "", street: "", national_address: "", is_default: false }); toast(t("toast.saved")); },
+    onError: () => toast(t("toast.error"), "error"),
   });
   const remove = useMutation({
     mutationFn: async (id: number) => api.delete(`/addresses/${id}/`),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["addresses"] }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["addresses"] }); toast(t("toast.deleted")); },
   });
+  const askRemove = async (id: number) => { if (await confirm(t("ui.confirmDelete"))) remove.mutate(id); };
 
   if (isLoading) return <Spinner />;
 
@@ -33,7 +39,14 @@ export default function Addresses() {
         <PageTitle>{t("nav.addresses")}</PageTitle>
         <button className="btn-cta" onClick={() => setOpen(true)}>{t("cust.addAddress")}</button>
       </div>
-      {data.length === 0 ? <EmptyState text={t("cust.noAddresses")} /> : (
+      {data.length === 0 ? (
+        <EmptyState
+          icon="pin"
+          title={t("cust.noAddresses")}
+          text={t("cust.addAddress")}
+          action={<button className="btn-cta" onClick={() => setOpen(true)}>{t("cust.addAddress")}</button>}
+        />
+      ) : (
         <div className="grid gap-3 sm:grid-cols-2">
           {data.map((a) => (
             <Card key={a.id}>
@@ -44,12 +57,13 @@ export default function Addresses() {
                   {a.street && <p className="text-sm text-slate-500">{a.street}</p>}
                   {a.national_address && <p className="text-xs text-slate-400" dir="ltr">{a.national_address}</p>}
                 </div>
-                <button className="text-sm text-status-failed" onClick={() => remove.mutate(a.id)}>{t("ui.delete")}</button>
+                <button className="text-sm text-status-failed hover:underline" onClick={() => askRemove(a.id)}>{t("ui.delete")}</button>
               </div>
             </Card>
           ))}
         </div>
       )}
+      {confirmUI}
       {open && (
         <Modal title={t("cust.addAddress")} onClose={() => setOpen(false)}>
           <div className="space-y-3">

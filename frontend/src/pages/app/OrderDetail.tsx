@@ -5,7 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
 import { api } from "../../lib/api";
 import type { Order, OrderStatus } from "../../lib/types";
-import { Card, Icon, PageTitle, Spinner, StatusBadge } from "../../components/ui";
+import { Card, Icon, MapPlaceholder, PageTitle, Spinner, StatusBadge } from "../../components/ui";
+import { useToast } from "../../components/Toast";
 import Conversation from "./Conversation";
 
 const DRIVER_NEXT: Partial<Record<OrderStatus, { to: OrderStatus; key: string }[]>> = {
@@ -20,6 +21,7 @@ export default function OrderDetail() {
   const { user } = useAuth();
   const qc = useQueryClient();
   const navigate = useNavigate();
+  const toast = useToast();
   const [stars, setStars] = useState(5);
   const [comment, setComment] = useState("");
   const [delayNote, setDelayNote] = useState("");
@@ -35,15 +37,18 @@ export default function OrderDetail() {
   };
   const setStatus = useMutation({
     mutationFn: async (status: OrderStatus) => api.post(`/orders/${id}/status/`, { status }),
-    onSuccess: invalidate,
+    onSuccess: () => { invalidate(); toast(t("toast.statusUpdated")); },
+    onError: () => toast(t("toast.error"), "error"),
   });
   const delay = useMutation({
     mutationFn: async () => api.post(`/orders/${id}/delay/`, { note: delayNote }),
-    onSuccess: invalidate,
+    onSuccess: () => { invalidate(); setDelayNote(""); toast(t("toast.delayReported")); },
+    onError: () => toast(t("toast.error"), "error"),
   });
   const rate = useMutation({
     mutationFn: async () => api.post(`/orders/${id}/rate/`, { stars, comment }),
-    onSuccess: invalidate,
+    onSuccess: () => { invalidate(); toast(t("toast.rated")); },
+    onError: () => toast(t("toast.error"), "error"),
   });
 
   if (isLoading || !order) return <Spinner />;
@@ -100,6 +105,16 @@ export default function OrderDetail() {
           </ol>
         </Card>
       </div>
+
+      {/* Simulated delivery map */}
+      {order.delivery_method !== "locker" && (
+        <Card className="mt-4">
+          <p className="mb-2 flex items-center gap-1 font-semibold text-navy">
+            <Icon name="pin" className="h-4 w-4" /> {t("ui.mapSim")}
+          </p>
+          <MapPlaceholder />
+        </Card>
+      )}
 
       {/* Driver actions */}
       {isDriver && (driverActions.length > 0 || true) && (

@@ -3,10 +3,12 @@ import { useTranslation } from "react-i18next";
 import { api } from "../../../lib/api";
 import type { Plan, Subscription } from "../../../lib/types";
 import { Card, Icon, PageTitle, Spinner } from "../../../components/ui";
+import { useToast } from "../../../components/Toast";
 
 export default function Subscriptions() {
   const { t, i18n } = useTranslation();
   const qc = useQueryClient();
+  const toast = useToast();
 
   const { data: plans = [], isLoading } = useQuery({
     queryKey: ["plans"],
@@ -20,7 +22,8 @@ export default function Subscriptions() {
 
   const subscribe = useMutation({
     mutationFn: async (planId: number) => api.post("/subscriptions/", { plan: planId }),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["subscriptions"] }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["subscriptions"] }); toast(t("toast.subscribed")); },
+    onError: () => toast(t("toast.error"), "error"),
   });
 
   if (isLoading) return <Spinner />;

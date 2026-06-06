@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../../auth/AuthContext";
 import { api } from "../../lib/api";
 import { Card, Icon } from "../../components/ui";
+import { useToast } from "../../components/Toast";
 
 interface Message { id: number; sender: number; sender_name: string; body: string; created_at: string; }
 interface Convo { id: number; messages: Message[]; }
@@ -12,6 +13,7 @@ export default function Conversation({ orderId }: { orderId: number }) {
   const { t } = useTranslation();
   const { user } = useAuth();
   const qc = useQueryClient();
+  const toast = useToast();
   const [text, setText] = useState("");
 
   const { data: convo } = useQuery({
@@ -22,7 +24,8 @@ export default function Conversation({ orderId }: { orderId: number }) {
 
   const send = useMutation({
     mutationFn: async () => api.post(`/conversations/${convo!.id}/send/`, { body: text }),
-    onSuccess: () => { setText(""); qc.invalidateQueries({ queryKey: ["convo", orderId] }); },
+    onSuccess: () => { setText(""); qc.invalidateQueries({ queryKey: ["convo", orderId] }); toast(t("toast.messageSent")); },
+    onError: () => toast(t("toast.error"), "error"),
   });
 
   return (

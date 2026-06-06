@@ -4,24 +4,30 @@ import { Link } from "react-router-dom";
 import { api } from "../../../lib/api";
 import type { Order } from "../../../lib/types";
 import { EmptyState, Icon, PageTitle, SkeletonList, StatusBadge } from "../../../components/ui";
+import { OrderToolbar, useOrderFilter } from "../../../components/OrderToolbar";
 
 export default function DriverOrders({ overview = false }: { overview?: boolean }) {
   const { t } = useTranslation();
+  const filter = useOrderFilter();
   const { data = [], isLoading } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => (await api.get<Order[]>("/orders/")).data,
   });
-  const list = overview
+  const base = overview
     ? data.filter((o) => !["delivered", "failed"].includes(o.status))
     : data;
+  const list = overview ? base : filter.apply(base);
 
   return (
     <div>
       <PageTitle>{overview ? t("dash.driver") : t("drv.assigned")}</PageTitle>
+      {!overview && base.length > 0 && <OrderToolbar filter={filter} />}
       {isLoading ? (
         <SkeletonList />
-      ) : list.length === 0 ? (
+      ) : base.length === 0 ? (
         <EmptyState text={t("drv.noAssigned")} icon="truck" />
+      ) : list.length === 0 ? (
+        <EmptyState text={t("ui.noResults")} icon="package" />
       ) : (
         <div className="stagger space-y-2">
           {list.map((o) => (

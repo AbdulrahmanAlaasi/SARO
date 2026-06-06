@@ -106,7 +106,9 @@ export interface KPIs {
   delayed: number;
   delivered: number;
   active: number;
+  delay_rate: number;
   by_status: Record<string, number>;
   by_method: Record<string, number>;
   avg_rating: number;
+  daily: { date: string; count: number }[];
 }

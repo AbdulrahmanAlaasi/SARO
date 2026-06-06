@@ -113,6 +113,13 @@ PROJECT COMPLETE through launch-ready state. See DEPLOYMENT.md for go-live steps
   addresses, reports, ai_recommendations) NOT built yet — only accounts.User exists.
 
 ## 9. Worklog (newest first)
+- **Feature pass (9 improvements)**: public order tracking page (/track/:code + GET /api/track/<id>/,
+  privacy-safe, wired to home hero); toast system (ToastProvider + useToast) on all mutations;
+  simulated MapPlaceholder on order detail; admin dashboard charts (orders-over-time area chart +
+  delay-rate KPI; kpis now branch-scoped server-side so branch supervisor sees its own data);
+  onboarding empty states with CTA; order search/filter toolbar (OrderToolbar/useOrderFilter) on
+  customer/driver/admin order lists; confirm dialogs (useConfirm) on all deletes; responsive
+  table→card layout for admin manage-orders on mobile. tsc+build+7 tests pass.
 - **LAUNCHED to production** (Railway). Backend service (root /backend, Procfile:
   migrate+collectstatic+gunicorn) + frontend service (root /frontend, Procfile: serve -s dist,
   added `serve` dep + start script). Removed root railway.toml (monorepo per-service Procfiles).

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { api } from "../../../lib/api";
 import type { Address, DeliveryMethod, Order, Priority } from "../../../lib/types";
 import { EmptyState, Icon, Modal, PageTitle, SkeletonList, StatusBadge } from "../../../components/ui";
+import { useToast } from "../../../components/Toast";
+import { OrderToolbar, useOrderFilter } from "../../../components/OrderToolbar";
 
 const METHODS: DeliveryMethod[] = ["home", "locker", "home_box", "over_the_wall"];
 const PRIORITIES: Priority[] = ["low", "normal", "high"];
@@ -12,7 +14,9 @@ const PRIORITIES: Priority[] = ["low", "normal", "high"];
 export default function CustomerOrders() {
   const { t } = useTranslation();
   const qc = useQueryClient();
+  const toast = useToast();
   const [open, setOpen] = useState(false);
+  const filter = useOrderFilter();
 
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["orders"],
@@ -41,7 +45,9 @@ export default function CustomerOrders() {
       qc.invalidateQueries({ queryKey: ["orders"] });
       setOpen(false);
       setForm({ delivery_method: "home", priority: "normal", package_description: "", delivery_instructions: "", address: "" });
+      toast(t("toast.orderCreated"));
     },
+    onError: () => toast(t("toast.error"), "error"),
   });
 
   return (
@@ -56,10 +62,20 @@ export default function CustomerOrders() {
       {isLoading ? (
         <SkeletonList />
       ) : orders.length === 0 ? (
-        <EmptyState text={t("cust.noOrders")} icon="package" />
+        <EmptyState
+          icon="package"
+          title={t("cust.noOrders")}
+          text={t("cust.newOrder")}
+          action={<button className="btn-cta" onClick={() => setOpen(true)}>{t("cust.create")}</button>}
+        />
       ) : (
+        <>
+        <OrderToolbar filter={filter} />
+        {filter.apply(orders).length === 0 ? (
+          <EmptyState text={t("ui.noResults")} icon="package" />
+        ) : (
         <div className="stagger space-y-2">
-          {orders.map((o) => (
+          {filter.apply(orders).map((o) => (
             <Link key={o.id} to={`/app/customer/orders/${o.id}`} className="card card-hover flex items-center justify-between p-4">
               <div className="flex items-center gap-2">
                 <span className="font-medium">#{o.id}</span>
@@ -70,6 +86,8 @@ export default function CustomerOrders() {
             </Link>
           ))}
         </div>
+        )}
+        </>
       )}
 
       {open && (

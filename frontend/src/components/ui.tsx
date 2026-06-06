@@ -104,11 +104,46 @@ export function Modal({ title, onClose, children }: { title: string; onClose: ()
   );
 }
 
-export function EmptyState({ text, icon = "inbox" }: { text: string; icon?: string }) {
+export function EmptyState({
+  text, icon = "inbox", title, action,
+}: { text: string; icon?: string; title?: string; action?: ReactNode }) {
   return (
-    <div className="card flex flex-col items-center gap-3 p-10 text-center text-slate-400 animate-fade-in">
-      <Icon name={icon} className="h-10 w-10 opacity-50" />
-      <p>{text}</p>
+    <div className="card flex flex-col items-center gap-3 p-12 text-center animate-fade-in">
+      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-navy-50 text-navy">
+        <Icon name={icon} className="h-7 w-7" />
+      </span>
+      {title && <p className="text-lg font-semibold text-slate-800">{title}</p>}
+      <p className="max-w-xs text-slate-400">{text}</p>
+      {action && <div className="mt-1">{action}</div>}
+    </div>
+  );
+}
+
+/** Simulated, lightweight map preview (no external calls; live maps are out of scope). */
+export function MapPlaceholder({ label }: { label?: string }) {
+  const { t } = useTranslation();
+  return (
+    <div className="relative h-44 overflow-hidden rounded-md border border-slate-200">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundColor: "#EAF0FB",
+          backgroundImage:
+            "linear-gradient(#d3def5 1px, transparent 1px), linear-gradient(90deg, #d3def5 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+      {/* faux route */}
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 176" preserveAspectRatio="none">
+        <path d="M30,150 C120,120 140,40 230,60 S360,40 380,30" fill="none" stroke="#001F5F" strokeWidth="3" strokeDasharray="6 6" opacity="0.5" />
+      </svg>
+      {/* pin */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full text-navy">
+        <Icon name="pin" className="h-8 w-8 drop-shadow" />
+      </div>
+      <span className="absolute bottom-2 end-2 rounded-sm bg-white/85 px-2 py-0.5 text-[10px] font-medium text-slate-500">
+        {label || t("ui.mapSim")}
+      </span>
     </div>
   );
 }

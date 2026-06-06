@@ -9,6 +9,7 @@ import Services from "./pages/public/Services";
 import PublicPlans from "./pages/public/PublicPlans";
 import PublicBranches from "./pages/public/PublicBranches";
 import Contact from "./pages/public/Contact";
+import Track from "./pages/public/Track";
 import OrderDetail from "./pages/app/OrderDetail";
 import CustomerOverview from "./pages/app/customer/Overview";
 import CustomerOrders from "./pages/app/customer/Orders";
@@ -32,6 +33,8 @@ export default function App() {
         <Route path="/plans" element={<PublicPlans />} />
         <Route path="/branches" element={<PublicBranches />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/track" element={<Track />} />
+        <Route path="/track/:code" element={<Track />} />
       </Route>
 
       <Route path="/login" element={<Login />} />

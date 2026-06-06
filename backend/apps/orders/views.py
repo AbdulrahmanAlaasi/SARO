@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.notifications.models import Notification
@@ -30,6 +30,27 @@ def log_status(order, new_status, by, note=""):
     order.status = new_status
     order.save(update_fields=["status", "updated_at"])
     OrderStatusLog.objects.create(order=order, status=new_status, by=by, note=note)
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def track_order(request, code):
+    """Public, privacy-safe order tracking by order number. No personal data exposed."""
+    try:
+        order = Order.objects.prefetch_related("status_logs").get(pk=code)
+    except (Order.DoesNotExist, ValueError):
+        return Response({"detail": "Order not found."}, status=404)
+    return Response({
+        "id": order.id,
+        "status": order.status,
+        "delivery_method": order.delivery_method,
+        "is_delayed": order.is_delayed,
+        "created_at": order.created_at,
+        "timeline": [
+            {"status": log.status, "note": log.note, "created_at": log.created_at}
+            for log in order.status_logs.all()
+        ],
+    })
 
 
 class OrderViewSet(viewsets.ModelViewSet):

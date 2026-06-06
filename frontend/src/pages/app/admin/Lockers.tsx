@@ -4,11 +4,15 @@ import { useTranslation } from "react-i18next";
 import { api } from "../../../lib/api";
 import type { Locker } from "../../../lib/types";
 import { Card, EmptyState, Modal, PageTitle, Spinner } from "../../../components/ui";
+import { useToast } from "../../../components/Toast";
+import { useConfirm } from "../../../components/ConfirmDialog";
 import { Text } from "../customer/Orders";
 
 export default function Lockers() {
   const { t } = useTranslation();
   const qc = useQueryClient();
+  const toast = useToast();
+  const { ui: confirmUI, confirm } = useConfirm();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", city: "", district: "", location: "", total_slots: 10, available_slots: 10 });
 
@@ -18,12 +22,14 @@ export default function Lockers() {
   });
   const create = useMutation({
     mutationFn: async () => api.post("/lockers/", form),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["lockers"] }); setOpen(false); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["lockers"] }); setOpen(false); toast(t("toast.saved")); },
+    onError: () => toast(t("toast.error"), "error"),
   });
   const remove = useMutation({
     mutationFn: async (id: number) => api.delete(`/lockers/${id}/`),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["lockers"] }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["lockers"] }); toast(t("toast.deleted")); },
   });
+  const askRemove = async (id: number) => { if (await confirm(t("ui.confirmDelete"))) remove.mutate(id); };
 
   if (isLoading) return <Spinner />;
   return (
@@ -41,11 +47,12 @@ export default function Lockers() {
                 <p className="text-sm text-slate-500">{l.city} {l.district && `· ${l.district}`}</p>
                 <p className="text-xs text-slate-400">{l.available_slots}/{l.total_slots} · {l.status}</p>
               </div>
-              <button className="text-sm text-status-failed" onClick={() => remove.mutate(l.id)}>{t("ui.delete")}</button>
+              <button className="text-sm text-status-failed hover:underline" onClick={() => askRemove(l.id)}>{t("ui.delete")}</button>
             </Card>
           ))}
         </div>
       )}
+      {confirmUI}
       {open && (
         <Modal title={t("adm.addLocker")} onClose={() => setOpen(false)}>
           <div className="space-y-3">

@@ -6,6 +6,7 @@ import "./i18n";
 import "./index.css";
 import App from "./App";
 import { AuthProvider } from "./auth/AuthContext";
+import { ToastProvider } from "./components/Toast";
 
 const queryClient = new QueryClient();
 
@@ -13,9 +14,11 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </ToastProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>

@@ -4,11 +4,15 @@ import { useTranslation } from "react-i18next";
 import { api } from "../../../lib/api";
 import type { Branch } from "../../../lib/types";
 import { Card, EmptyState, Modal, PageTitle, Spinner } from "../../../components/ui";
+import { useToast } from "../../../components/Toast";
+import { useConfirm } from "../../../components/ConfirmDialog";
 import { Text } from "../customer/Orders";
 
 export default function Branches() {
   const { t } = useTranslation();
   const qc = useQueryClient();
+  const toast = useToast();
+  const { ui: confirmUI, confirm } = useConfirm();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", name_ar: "", city: "", district: "" });
 
@@ -18,12 +22,14 @@ export default function Branches() {
   });
   const create = useMutation({
     mutationFn: async () => api.post("/branches/", form),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ["branches"] }); setOpen(false); setForm({ name: "", name_ar: "", city: "", district: "" }); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["branches"] }); setOpen(false); setForm({ name: "", name_ar: "", city: "", district: "" }); toast(t("toast.saved")); },
+    onError: () => toast(t("toast.error"), "error"),
   });
   const remove = useMutation({
     mutationFn: async (id: number) => api.delete(`/branches/${id}/`),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["branches"] }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["branches"] }); toast(t("toast.deleted")); },
   });
+  const askRemove = async (id: number) => { if (await confirm(t("ui.confirmDelete"))) remove.mutate(id); };
 
   if (isLoading) return <Spinner />;
   return (
@@ -40,11 +46,12 @@ export default function Branches() {
                 <p className="font-semibold">{b.name}</p>
                 <p className="text-sm text-slate-500">{b.city} {b.district && `· ${b.district}`}</p>
               </div>
-              <button className="text-sm text-status-failed" onClick={() => remove.mutate(b.id)}>{t("ui.delete")}</button>
+              <button className="text-sm text-status-failed hover:underline" onClick={() => askRemove(b.id)}>{t("ui.delete")}</button>
             </Card>
           ))}
         </div>
       )}
+      {confirmUI}
       {open && (
         <Modal title={t("adm.addBranch")} onClose={() => setOpen(false)}>
           <div className="space-y-3">

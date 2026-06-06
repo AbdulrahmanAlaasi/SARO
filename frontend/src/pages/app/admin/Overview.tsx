@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { api } from "../../../lib/api";
 import type { KPIs } from "../../../lib/types";
 import { Card, PageTitle, Spinner } from "../../../components/ui";
@@ -20,17 +20,36 @@ export default function AdminOverview() {
 
   const statusData = Object.entries(data.by_status).map(([k, v]) => ({ name: t(`ostatus.${k}`), value: v, color: STATUS_COLORS[k] }));
   const methodData = Object.entries(data.by_method).map(([k, v]) => ({ name: t(`dmethod.${k}`), value: v }));
+  const dailyData = (data.daily ?? []).map((d) => ({ name: d.date.slice(5), value: d.count }));
 
   return (
     <div>
       <PageTitle>{t("adm.kpis")}</PageTitle>
-      <div className="stagger mb-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
+      <div className="stagger mb-4 grid grid-cols-2 gap-3 sm:grid-cols-6">
         <Kpi label={t("adm.totalOrders")} value={data.total_orders} />
         <Kpi label={t("adm.active")} value={data.active} />
         <Kpi label={t("adm.delivered")} value={data.delivered} />
         <Kpi label={t("adm.delayed")} value={data.delayed} accent />
+        <Kpi label={t("adm2.delayRate")} value={`${data.delay_rate}%`} accent />
         <Kpi label={t("adm.avgRating")} value={data.avg_rating} />
       </div>
+      <Card className="mb-4">
+        <p className="mb-2 font-semibold text-navy">{t("adm2.ordersOverTime")}</p>
+        <ResponsiveContainer width="100%" height={200}>
+          <AreaChart data={dailyData}>
+            <defs>
+              <linearGradient id="ord" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#001F5F" stopOpacity={0.35} />
+                <stop offset="100%" stopColor="#001F5F" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <XAxis dataKey="name" fontSize={11} />
+            <YAxis allowDecimals={false} fontSize={11} />
+            <Tooltip />
+            <Area type="monotone" dataKey="value" stroke="#001F5F" strokeWidth={2} fill="url(#ord)" />
+          </AreaChart>
+        </ResponsiveContainer>
+      </Card>
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <p className="mb-2 font-semibold text-navy">{t("adm.byStatus")}</p>
@@ -59,7 +78,7 @@ export default function AdminOverview() {
   );
 }
 
-function Kpi({ label, value, accent }: { label: string; value: number; accent?: boolean }) {
+function Kpi({ label, value, accent }: { label: string; value: number | string; accent?: boolean }) {
   return (
     <Card>
       <p className="text-xs text-slate-500">{label}</p>
