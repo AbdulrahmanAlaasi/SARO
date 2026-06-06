@@ -115,9 +115,10 @@ function TrackCard({ data }: { data: TrackResult }) {
           />
           <div className="relative flex justify-between">
             {STAGES.map((s, i) => {
-              const done = i < currentIdx;
-              const current = i === currentIdx;
-              const color = failed && current ? "bg-status-failed text-white"
+              const allDone = data.status === "delivered";
+              const done = i < currentIdx || allDone;
+              const current = i === currentIdx && !allDone;
+              const color = failed && i === currentIdx ? "bg-status-failed text-white"
                 : done ? "bg-status-delivered text-white"
                 : current ? "bg-accent text-white"
                 : "bg-slate-200 text-slate-400";
