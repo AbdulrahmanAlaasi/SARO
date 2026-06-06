@@ -14,11 +14,20 @@ Rule-based smart dispatch · neighborhood smart lockers · PDPL-compliant messag
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-Postgres-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 [![Tests](https://img.shields.io/badge/tests-7%20passing-16A34A)](#-testing)
-[![Status](https://img.shields.io/badge/status-launch--ready-16A34A)](#-roadmap)
+[![Status](https://img.shields.io/badge/status-live-16A34A)](#-live-demo)
 
-[Features](#-features) · [Tech Stack](#-tech-stack) · [Architecture](#-architecture) · [Quick Start](#-quick-start) · [Deployment](DEPLOYMENT.md)
+**🌐 [Live demo](https://valiant-magic-production-11d8.up.railway.app)** · [Features](#-features) · [Tech Stack](#-tech-stack) · [Architecture](#-architecture) · [Quick Start](#-quick-start) · [Deployment](DEPLOYMENT.md)
 
 </div>
+
+## 🌐 Live demo
+
+| | URL |
+|---|---|
+| **App (frontend)** | https://valiant-magic-production-11d8.up.railway.app |
+| **API (backend)** | https://saro-production-62b5.up.railway.app/api |
+
+**Demo logins** (password `Passw0rd!23`): `admin1` · `branch1` · `driver1` · `customer1`
 
 ---
 

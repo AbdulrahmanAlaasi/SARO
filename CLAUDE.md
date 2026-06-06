@@ -9,6 +9,17 @@
 
 ---
 
+## 0. LIVE (production)
+- **Frontend:** https://valiant-magic-production-11d8.up.railway.app
+- **Backend API:** https://saro-production-62b5.up.railway.app/api  (health: /health/)
+- Both deployed on **Railway** (project "zippy-joy") from GitHub `main` (auto-deploy on push).
+  Backend service "SARO" root dir `/backend`; frontend service "valiant-magic" root dir `/frontend`.
+  DB = Supabase. **Outbound IPv6 enabled on backend** (Supabase direct conn is IPv6-only).
+  Demo logins work in prod (admin1/driver1/customer1/branch1, pw Passw0rd!23) — DB already seeded.
+- Deploy config: per-service `Procfile` (no root railway.toml). Backend Procfile runs
+  migrate+collectstatic+gunicorn; frontend Procfile runs `serve -s dist`. CORS allows
+  `*.up.railway.app` + `*.vercel.app` via regex, so frontend↔backend works out of the box.
+
 ## 1. What SARO is
 **SARO** = Smart Delivery Management Platform. MIS senior project, Al Yamamah University,
 2025–2026 (supervisor Dr. Abdullah AlSahly; team: Abdulaziz BinAsakir, Meshari Alsharif,
@@ -102,6 +113,15 @@ PROJECT COMPLETE through launch-ready state. See DEPLOYMENT.md for go-live steps
   addresses, reports, ai_recommendations) NOT built yet — only accounts.User exists.
 
 ## 9. Worklog (newest first)
+- **LAUNCHED to production** (Railway). Backend service (root /backend, Procfile:
+  migrate+collectstatic+gunicorn) + frontend service (root /frontend, Procfile: serve -s dist,
+  added `serve` dep + start script). Removed root railway.toml (monorepo per-service Procfiles).
+  Added /health/ endpoint. Settings.py: dynamic ALLOWED_HOSTS for *.up.railway.app + CORS regex
+  for *.vercel.app/*.railway.app. Enabled Outbound IPv6 on backend (Supabase direct = IPv6-only)
+  — that was the key fix for the healthcheck failures. Set prod env vars via Railway Raw Editor
+  (careful: paste cleanly, one per line). Generated public domains for both services. Verified
+  live E2E: health 200, register/login/plans API, and admin login → KPIs+charts load from Supabase.
+  Vercel was skipped (would need account/OAuth creation — left to user).
 - **Professional README**: rewrote README.md — badges, overview, feature tables by role,
   tech stack, mermaid architecture diagram, quick start, testing, roadmap, structure, team, license.
 - **UI polish pass**: Swiss-minimal cleanup + tasteful motion. Tailwind keyframes

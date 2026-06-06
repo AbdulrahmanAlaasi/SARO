@@ -3,6 +3,26 @@
 SARO ships as two deployables: a **Django API** (backend) and a **static React build**
 (frontend). The database is **Supabase Postgres**.
 
+## ✅ Live production (Railway)
+Both services run on **Railway** (project `zippy-joy`), auto-deploying from GitHub `main`.
+
+| Service | Root dir | URL |
+|---------|----------|-----|
+| Backend (Django) | `/backend` | https://saro-production-62b5.up.railway.app |
+| Frontend (React) | `/frontend` | https://valiant-magic-production-11d8.up.railway.app |
+
+**Key Railway gotchas we hit (documented so you don't repeat them):**
+1. **Supabase direct connection is IPv6-only** → enable **Settings → Networking → Outbound IPv6**
+   on the backend service, or migrate to the IPv4 pooler URL. Without this, `migrate` hangs and
+   the healthcheck fails.
+2. **Monorepo:** don't use a root `railway.toml` (it applies to every service). Use a per-service
+   `Procfile` in each root dir (`backend/Procfile`, `frontend/Procfile`).
+3. When pasting env vars into Railway's **Raw Editor**, paste clean `KEY=value` lines — a stray
+   multi-line paste can corrupt values (caused `corsheaders.E013` on boot).
+4. Healthcheck path must be a **GET** endpoint — use `/health/` (not the POST-only login route).
+
+Redeploys are automatic on `git push`. Demo data is already seeded in Supabase.
+
 ## 0. Prerequisites
 - Supabase project (already created). Have the `DATABASE_URL` (Session pooler URI).
 - A backend host (Render, Railway, Fly.io, or any VPS) and a static host (Vercel,
