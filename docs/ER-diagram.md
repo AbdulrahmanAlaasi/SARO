@@ -2,14 +2,24 @@
 
 This ERD reflects the actual implemented schema (Django models under `backend/apps/`).
 
-## Chen-notation diagram (image)
+## Clean schema diagram (crow's-foot — recommended)
 
-![SARO ER diagram](saro-erd.png)
+Each entity is one box listing its columns (**PK** bold+underlined, *FK* italic);
+connectors use crow's-foot ends (the "many" side) and `tee` (the "one" side).
 
-> Teal boxes = entities · cream ovals = attributes (underlined = primary key) ·
-> amber diamonds = relationships · edge labels = cardinality (1 / N).
-> Generated with Graphviz from [`gen_erd.py`](gen_erd.py) — run `python docs/gen_erd.py`
-> to regenerate `saro-erd.png` after schema changes.
+![SARO ER diagram — crow's foot](saro-erd-tables.png)
+
+> Generated with Graphviz from [`gen_erd_tables.py`](gen_erd_tables.py) —
+> run `python docs/gen_erd_tables.py` to regenerate after schema changes.
+
+## Chen-notation diagram (matches the classic example style)
+
+Teal boxes = entities · cream ovals = attributes (underlined = primary key) ·
+amber diamonds = relationships · edge labels = cardinality (1 / N).
+
+![SARO ER diagram — Chen notation](saro-erd.png)
+
+> Generated from [`gen_erd.py`](gen_erd.py) — run `python docs/gen_erd.py` to regenerate.
 
 ## Crow's-foot version (Mermaid)
 

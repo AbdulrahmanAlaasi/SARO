@@ -1,0 +1,99 @@
+digraph SARO {
+  graph [rankdir=LR, bgcolor="#dbeafe", nodesep=0.5, ranksep=1.4, splines=ortho, pad=0.4];
+  node [shape=plaintext, fontname="Helvetica"];
+  edge [color="#3f5161", penwidth=1.2, arrowsize=0.9, dir=both, arrowhead=crow, arrowtail=tee];
+  "User" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>User</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="username" BGCOLOR="white"><FONT POINT-SIZE="11">username</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="email" BGCOLOR="white"><FONT POINT-SIZE="11">email</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="password" BGCOLOR="white"><FONT POINT-SIZE="11">password</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="first_name" BGCOLOR="white"><FONT POINT-SIZE="11">first_name</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="last_name" BGCOLOR="white"><FONT POINT-SIZE="11">last_name</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="role" BGCOLOR="white"><FONT POINT-SIZE="11">role</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="phone" BGCOLOR="white"><FONT POINT-SIZE="11">phone</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="preferred_language" BGCOLOR="white"><FONT POINT-SIZE="11">preferred_language</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="is_active" BGCOLOR="white"><FONT POINT-SIZE="11">is_active</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="date_joined" BGCOLOR="white"><FONT POINT-SIZE="11">date_joined</FONT></TD></TR>
+    </TABLE>>];
+  "Branch" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Branch</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="supervisor_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>supervisor_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="name" BGCOLOR="white"><FONT POINT-SIZE="11">name</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="name_ar" BGCOLOR="white"><FONT POINT-SIZE="11">name_ar</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="city" BGCOLOR="white"><FONT POINT-SIZE="11">city</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="district" BGCOLOR="white"><FONT POINT-SIZE="11">district</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="is_active" BGCOLOR="white"><FONT POINT-SIZE="11">is_active</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR>
+    </TABLE>>];
+  "Address" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Address</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="customer_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>customer_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="label" BGCOLOR="white"><FONT POINT-SIZE="11">label</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="city" BGCOLOR="white"><FONT POINT-SIZE="11">city</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="district" BGCOLOR="white"><FONT POINT-SIZE="11">district</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="street" BGCOLOR="white"><FONT POINT-SIZE="11">street</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="national_address" BGCOLOR="white"><FONT POINT-SIZE="11">national_address</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="notes" BGCOLOR="white"><FONT POINT-SIZE="11">notes</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="is_default" BGCOLOR="white"><FONT POINT-SIZE="11">is_default</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR>
+    </TABLE>>];
+  "Locker" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Locker</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="branch_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>branch_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="name" BGCOLOR="white"><FONT POINT-SIZE="11">name</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="city" BGCOLOR="white"><FONT POINT-SIZE="11">city</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="district" BGCOLOR="white"><FONT POINT-SIZE="11">district</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="location" BGCOLOR="white"><FONT POINT-SIZE="11">location</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="total_slots" BGCOLOR="white"><FONT POINT-SIZE="11">total_slots</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="available_slots" BGCOLOR="white"><FONT POINT-SIZE="11">available_slots</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="status" BGCOLOR="white"><FONT POINT-SIZE="11">status</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR>
+    </TABLE>>];
+  "Order" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Order</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="customer_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>customer_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="driver_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>driver_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="branch_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>branch_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="address_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>address_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="locker_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>locker_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="delivery_method" BGCOLOR="white"><FONT POINT-SIZE="11">delivery_method</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="status" BGCOLOR="white"><FONT POINT-SIZE="11">status</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="priority" BGCOLOR="white"><FONT POINT-SIZE="11">priority</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="package_description" BGCOLOR="white"><FONT POINT-SIZE="11">package_description</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="delivery_instructions" BGCOLOR="white"><FONT POINT-SIZE="11">delivery_instructions</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="pickup_code" BGCOLOR="white"><FONT POINT-SIZE="11">pickup_code</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="is_delayed" BGCOLOR="white"><FONT POINT-SIZE="11">is_delayed</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="scheduled_time" BGCOLOR="white"><FONT POINT-SIZE="11">scheduled_time</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="updated_at" BGCOLOR="white"><FONT POINT-SIZE="11">updated_at</FONT></TD></TR>
+    </TABLE>>];
+  "OrderStatusLog" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>OrderStatusLog</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="order_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>order_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="by_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>by_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="status" BGCOLOR="white"><FONT POINT-SIZE="11">status</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="note" BGCOLOR="white"><FONT POINT-SIZE="11">note</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR>
+    </TABLE>>];
+  "Rating" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Rating</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="order_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>order_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="stars" BGCOLOR="white"><FONT POINT-SIZE="11">stars</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="comment" BGCOLOR="white"><FONT POINT-SIZE="11">comment</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR>
+    </TABLE>>];
+  "Plan" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Plan</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="name" BGCOLOR="white"><FONT POINT-SIZE="11">name</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="name_ar" BGCOLOR="white"><FONT POINT-SIZE="11">name_ar</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="price" BGCOLOR="white"><FONT POINT-SIZE="11">price</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="period" BGCOLOR="white"><FONT POINT-SIZE="11">period</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="features" BGCOLOR="white"><FONT POINT-SIZE="11">features</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="is_active" BGCOLOR="white"><FONT POINT-SIZE="11">is_active</FONT></TD></TR>
+    </TABLE>>];
+  "Subscription" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Subscription</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="customer_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>customer_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="plan_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>plan_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="status" BGCOLOR="white"><FONT POINT-SIZE="11">status</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="start_date" BGCOLOR="white"><FONT POINT-SIZE="11">start_date</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="end_date" BGCOLOR="white"><FONT POINT-SIZE="11">end_date</FONT></TD></TR>
+    </TABLE>>];
+  "Payment" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Payment</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="customer_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>customer_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="order_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>order_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="subscription_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>subscription_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="amount" BGCOLOR="white"><FONT POINT-SIZE="11">amount</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="method" BGCOLOR="white"><FONT POINT-SIZE="11">method</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="status" BGCOLOR="white"><FONT POINT-SIZE="11">status</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR>
+    </TABLE>>];
+  "Conversation" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Conversation</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="order_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>order_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="customer_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>customer_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="driver_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>driver_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR>
+    </TABLE>>];
+  "Message" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Message</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="conversation_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>conversation_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="sender_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>sender_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="body" BGCOLOR="white"><FONT POINT-SIZE="11">body</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="is_read" BGCOLOR="white"><FONT POINT-SIZE="11">is_read</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR>
+    </TABLE>>];
+  "Notification" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>Notification</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="user_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>user_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="type" BGCOLOR="white"><FONT POINT-SIZE="11">type</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="title" BGCOLOR="white"><FONT POINT-SIZE="11">title</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="body" BGCOLOR="white"><FONT POINT-SIZE="11">body</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="is_read" BGCOLOR="white"><FONT POINT-SIZE="11">is_read</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR>
+    </TABLE>>];
+  "AIRecommendation" [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#34a8a8"><FONT COLOR="white" POINT-SIZE="13"><B>AIRecommendation</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="id" BGCOLOR="white"><FONT POINT-SIZE="11"><B><U>id</U></B>  <FONT POINT-SIZE="9" COLOR="#777">PK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="order_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>order_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="recommended_driver_id" BGCOLOR="white"><FONT POINT-SIZE="11"><I>recommended_driver_id</I>  <FONT POINT-SIZE="9" COLOR="#777">FK</FONT></FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="score" BGCOLOR="white"><FONT POINT-SIZE="11">score</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="reason" BGCOLOR="white"><FONT POINT-SIZE="11">reason</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="accepted" BGCOLOR="white"><FONT POINT-SIZE="11">accepted</FONT></TD></TR><TR><TD ALIGN="LEFT" PORT="created_at" BGCOLOR="white"><FONT POINT-SIZE="11">created_at</FONT></TD></TR>
+    </TABLE>>];
+  "Address":customer_id -> "User":id;
+  "Branch":supervisor_id -> "User":id;
+  "Order":customer_id -> "User":id;
+  "Order":driver_id -> "User":id;
+  "Order":branch_id -> "Branch":id;
+  "Order":address_id -> "Address":id;
+  "Order":locker_id -> "Locker":id;
+  "Locker":branch_id -> "Branch":id;
+  "OrderStatusLog":order_id -> "Order":id;
+  "OrderStatusLog":by_id -> "User":id;
+  "Rating":order_id -> "Order":id;
+  "Subscription":customer_id -> "User":id;
+  "Subscription":plan_id -> "Plan":id;
+  "Payment":customer_id -> "User":id;
+  "Payment":order_id -> "Order":id;
+  "Payment":subscription_id -> "Subscription":id;
+  "Conversation":order_id -> "Order":id;
+  "Conversation":customer_id -> "User":id;
+  "Conversation":driver_id -> "User":id;
+  "Message":conversation_id -> "Conversation":id;
+  "Message":sender_id -> "User":id;
+  "Notification":user_id -> "User":id;
+  "AIRecommendation":order_id -> "Order":id;
+  "AIRecommendation":recommended_driver_id -> "User":id;
+}
