@@ -11,7 +11,7 @@ from apps.messaging.views import ConversationViewSet
 from apps.notifications.views import NotificationViewSet
 from apps.orders.views import OrderViewSet
 from apps.payments.views import PaymentViewSet
-from apps.reports.views import kpis
+from apps.reports.views import health, kpis
 from apps.subscriptions.views import PlanViewSet, SubscriptionViewSet
 
 router = DefaultRouter()
@@ -27,6 +27,7 @@ router.register("conversations", ConversationViewSet, basename="conversation")
 router.register("notifications", NotificationViewSet, basename="notification")
 
 urlpatterns = [
+    path("health/", health, name="health"),
     path("admin/", admin.site.urls),
     path("api/auth/", include("apps.accounts.urls")),
     path("api/dispatch/recommend/", recommend, name="dispatch-recommend"),

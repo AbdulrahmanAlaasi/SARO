@@ -1,9 +1,16 @@
 from django.db.models import Avg, Count
+from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from apps.common.permissions import IsAdminOrBranch
 from apps.orders.models import Order, OrderStatus, Rating
+
+
+def health(request):
+    """Simple GET health endpoint used by Railway."""
+    return JsonResponse({"status": "ok"})
 
 
 @api_view(["GET"])
