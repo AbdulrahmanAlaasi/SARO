@@ -1,8 +1,20 @@
 # SARO — Entity Relationship Diagram
 
 This ERD reflects the actual implemented schema (Django models under `backend/apps/`).
-GitHub renders the Mermaid diagram below automatically. To edit/export as an image,
-paste it into <https://mermaid.live>.
+
+## Chen-notation diagram (image)
+
+![SARO ER diagram](saro-erd.png)
+
+> Teal boxes = entities · cream ovals = attributes (underlined = primary key) ·
+> amber diamonds = relationships · edge labels = cardinality (1 / N).
+> Generated with Graphviz from [`gen_erd.py`](gen_erd.py) — run `python docs/gen_erd.py`
+> to regenerate `saro-erd.png` after schema changes.
+
+## Crow's-foot version (Mermaid)
+
+GitHub renders the Mermaid diagram below automatically. To edit/export, paste it into
+<https://mermaid.live>.
 
 > **Design note:** SARO uses **one `User` table with a `role` field**
 > (`customer` · `driver` · `admin` · `branch_supervisor`) instead of separate
