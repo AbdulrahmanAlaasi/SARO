@@ -187,7 +187,11 @@ SARO/
 
 ---
 
-## 👥 Team
+## 💻 Developed By
+**Abdulrahman Alaasi** As a FreeLance Project.
+**https://abdulrahman.alaasi.dev/**, Abdulrahman's Portfolio.
+
+## 👥 Built for
 
 Senior project — College of Business, **Al Yamamah University** (2025–2026)
 Supervisor: **Dr. Abdullah AlSahly**
