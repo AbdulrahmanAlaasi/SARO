@@ -106,8 +106,8 @@ flowchart LR
 **Backend apps:** `accounts`, `branches`, `addresses`, `lockers`, `orders`, `subscriptions`,
 `payments`, `messaging`, `notifications`, `dispatch`, `reports`.
 
-Design system & tokens: [`DESIGN.md`](DESIGN.md) · Build plan: [`PLAN.md`](PLAN.md) ·
-Deployment: [`DEPLOYMENT.md`](DEPLOYMENT.md)
+**ER diagram:** [`docs/ER-diagram.md`](docs/ER-diagram.md) (renders on GitHub) · Design system: [`DESIGN.md`](DESIGN.md) ·
+Build plan: [`PLAN.md`](PLAN.md) · Deployment: [`DEPLOYMENT.md`](DEPLOYMENT.md)
 
 ---
 
