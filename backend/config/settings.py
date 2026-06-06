@@ -36,7 +36,17 @@ SECRET_KEY = os.getenv(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+_allowed = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1')
+ALLOWED_HOSTS = [h.strip() for h in _allowed.split(',') if h.strip()]
+# Accept any Railway-generated *.up.railway.app subdomain automatically
+RAILWAY_STATIC_URL = os.getenv('RAILWAY_STATIC_URL', '')
+if RAILWAY_STATIC_URL:
+    from urllib.parse import urlparse
+    _railway_host = urlparse(RAILWAY_STATIC_URL).netloc
+    if _railway_host and _railway_host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_railway_host)
+# Also allow any *.railway.app / *.up.railway.app host (Railway sets HOST header)
+ALLOWED_HOSTS.extend(['*.up.railway.app', '.railway.app'])
 
 
 # Application definition
@@ -135,9 +145,18 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-CORS_ALLOWED_ORIGINS = os.getenv(
-    'CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173'
-).split(',')
+_cors = os.getenv('CORS_ALLOWED_ORIGINS', '')
+if _cors:
+    CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors.split(',') if o.strip()]
+else:
+    # Dev fallback — in production always set CORS_ALLOWED_ORIGINS explicitly
+    CORS_ALLOWED_ORIGINS = ['http://localhost:5173', 'http://127.0.0.1:5173']
+
+# Allow Railway preview / Vercel preview URLs that contain these patterns
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^https://.*\.vercel\.app$',
+    r'^https://.*\.up\.railway\.app$',
+]
 
 
 # Password validation
