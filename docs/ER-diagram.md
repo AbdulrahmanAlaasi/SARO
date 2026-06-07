@@ -1,6 +1,7 @@
 # SARO — Entity Relationship Diagram
 
 This ERD reflects the actual implemented schema (Django models under `backend/apps/`).
+SQL DDL: [`schema.mysql.sql`](schema.mysql.sql) (MySQL 8) — the production DB is PostgreSQL via Supabase.
 
 ## Clean schema diagram (crow's-foot — recommended)
 
